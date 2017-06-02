@@ -69,7 +69,6 @@ public class RandomTP extends JavaPlugin implements Listener {
 
 		//Check if for Vault
 		if (bukkitManager.getPlugin("Vault") != null) {
-			System.out.println("[RandomTP-Reborn] Linked with Vault-Economy!");
 			RegisteredServiceProvider < Economy > service = Bukkit.getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 			if (service != null) {
 				economy = service.getProvider();
@@ -77,11 +76,15 @@ public class RandomTP extends JavaPlugin implements Listener {
 			}
 
 		}
-
+		
 		//Check for Factions & MassiveCore
 		if (bukkitManager.getPlugin("Factions") != null && bukkitManager.getPlugin("MassiveCore") != null) {
 			CheckAmbient.factions = true;
 			System.out.println("[RandomTP-Reborn] Linked with Factions!");
+		}
+		if (bukkitManager.getPlugin("PreciousStones") != null) {
+			CheckAmbient.pstones = true;
+			System.out.println("[RandomTP-Reborn] Linked with PreciousStones!");
 		}
 
 		//Registering listeners
@@ -360,7 +363,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 		CheckAmbient.returnLocation(p, w, maxblocks);
 		new BukkitRunnable() {
 			public void run() {
-				if (RandomTP.tries.get(p) > 100) {
+				if (RandomTP.tries.get(p) > 200) {
 					cancel();
 					players.remove(p);
 					RandomTP.tries.remove(p);

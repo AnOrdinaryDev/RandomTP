@@ -17,9 +17,13 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.massivecore.ps.PS;
 
+import net.sacredlabyrinth.Phaed.PreciousStones.FieldFlag;
+import net.sacredlabyrinth.Phaed.PreciousStones.PreciousStones;
+
 public class CheckAmbient {
 
 	public static boolean factions = false;
+	public static boolean pstones = false;
 
 	public static void returnLocation(Player p, World w, int maxblocks) {
 
@@ -32,55 +36,73 @@ public class CheckAmbient {
 		new BukkitRunnable() {
 			public void run() {
 
-				RandomTP.tries.put(p, RandomTP.tries.get(p) + 1);
-				if (RandomTP.tries.get(p) > 100) {
-					cancel();
-				}
+				if(RandomTP.tries.get(p) != null) {
+					if (RandomTP.tries.get(p) > 200) {
+						cancel();
+					} else {
+						RandomTP.tries.put(p, RandomTP.tries.get(p) + 1);
+					}
+					
+					int x = randomSymbol(random.nextInt(maxblocks));
+					int z = randomSymbol(random.nextInt(maxblocks));
+					int y = w.getHighestBlockYAt(x, z);
 
-				int x = randomSymbol(random.nextInt(maxblocks));
-				int z = randomSymbol(random.nextInt(maxblocks));
-				int y = w.getHighestBlockYAt(x, z);
+					Location loc = new Location(w, x, y, z);
 
-				Location loc = new Location(w, x, y, z);
+					boolean checker = false;
 
-				boolean checker = false;
-
-				//Checking if is ocean
-				if (isWater(loc)) {
-					checker = true;
-				}
-				//Checking for near solid blocks
-				if (loc.add(0, 1, 0).getBlock().getType().isSolid() == true || loc.add(0, -1, 0).getBlock().getType().isSolid() == true || loc.getBlock().getType().isSolid() == true) {
-					checker = true;
-				}
-				//Checking if near blocks are water or lava
-				List < Block > list = getNearbyBlocks(loc, 4);
-				for (int i = 0; i < list.size(); i++) {
-					Block b = list.get(i);
-					if (b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER || b.getType() == Material.LAVA || b.getType() == Material.STATIONARY_LAVA || b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+					//Checking if is ocean
+					if (isWater(loc)) {
 						checker = true;
 					}
-				}
-				//Checking for factions
-				if (factions == true) {
-
-					Faction faction = null;
-					faction = BoardColl.get().getFactionAt(PS.valueOf(loc));
-					if (! (faction == FactionColl.get().getNone() || faction == FactionColl.get().getSafezone() || faction == FactionColl.get().getWarzone())) {
+					//Checking for near solid blocks
+					if (loc.add(0, 1, 0).getBlock().getType().isSolid() == true || loc.add(0, -1, 0).getBlock().getType().isSolid() == true || loc.getBlock().getType().isSolid() == true) {
 						checker = true;
 					}
+					//Checking if near blocks are water or lava
+					List < Block > list = getNearbyBlocks(loc, 4);
+					for (int i = 0; i < list.size(); i++) {
+						Block b = list.get(i);
+						if (b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER || b.getType() == Material.LAVA || b.getType() == Material.STATIONARY_LAVA || b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+							checker = true;
+						}
+					}
+					//Checking for PreciousStones 
+					if(pstones == true) {
+						
+						if(PreciousStones.API().isFieldProtectingArea(FieldFlag.ALL, loc)== true
+								|| PreciousStones.API().isPStone(loc)== true) {
+							checker = true;
+							System.out.println("Is a p stone " + loc.toString());
+						}
+						
+					}
+					//Checking for factions
+					if (factions == true) {
 
+						Faction faction = null;
+						faction = BoardColl.get().getFactionAt(PS.valueOf(loc));
+						if (! (faction == FactionColl.get().getNone() || faction == FactionColl.get().getSafezone() || faction == FactionColl.get().getWarzone())) {
+							checker = true;
+						}
+
+					}
+					/*If it found any dagerous place from the previous mentioned one's it will research and research 
+					until it finds any safe location with a limit of 100 tries if not there will be no safe location*/ 
+					
+					if (checker == false) {
+						cancel();
+						RandomTP.pLoc.put(p, getCenterOfaBlock(loc));
+						Location newloc = new Location(w, x, y, z);
+						RandomTP.pY.put(p, (int) newloc.getY());
+						RandomTP.warnings.put(p, 0);
+						p.sendMessage(RandomTP.instance.getConfig().getString("Messages.Found").replace("&", "§"));
+					}
+					
 				}
-				/*If it found any dagerous place from the previous mentioned one's it will research and research 
-				until it finds any safe location with a limit of 100 tries if not there will be no safe location*/  
-				if (checker == false) {
-					cancel();
-					RandomTP.pLoc.put(p, getCenterOfaBlock(loc));
-					Location newloc = new Location(w, x, y, z);
-					RandomTP.pY.put(p, (int) newloc.getY());
-					RandomTP.warnings.put(p, 0);
-					p.sendMessage(RandomTP.instance.getConfig().getString("Messages.Found").replace("&", "§"));
-				}
+				
+				
+				
 			}
 		}.runTaskTimer(RandomTP.instance, 0L, 0L);
 

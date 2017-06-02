@@ -247,13 +247,20 @@ public class CreateSign {
 		//Removing sign
 		
 		if(!(RandomTP.data.getStringList("Saved") == null))  {
-			ArrayList<String> signs = (ArrayList<String>) RandomTP.data.getStringList("Signs");
+			ArrayList<String> signs = (ArrayList<String>) RandomTP.data.getStringList("Saved");
 			for(int i = 0; i<signs.size(); i++) {
 				String sign = signs.get(i);
-				if(sign.contains(x + "," + y + "," + z + "," + world)) {
+				if(sign.contains(x + "," + y + "," + z)) {
 					signs.remove(sign);
-					RandomTP.data.set("Signs", signs);
+					RandomTP.data.set("Saved", signs);
 					RandomTP.saveData();
+					for(String uuid : Cooldown.cooldown.keySet()) {
+						
+						String text = Cooldown.cooldown.get(uuid);
+						if(text.contains(x + "," + y + "," + z)) {
+							Cooldown.cooldown.remove(uuid);
+						}
+					}
 				}
 			}
 		}
