@@ -2,6 +2,9 @@ package com.gmail.theposhogamer;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.bukkit.Bukkit;
@@ -95,11 +98,12 @@ public class RandomTP extends JavaPlugin implements Listener {
 	}@Override
 	public void onDisable() {
 		//Disabling the plugin
+		saveData();
 		Cooldown.save();
 		System.out.println("[RandomTP-Reborn] has been disabled, see you later.");
 	}
 
-	public void setup(Plugin p) throws IOException {
+	public static void setup(Plugin p) throws IOException {
 		dfile = new File(p.getDataFolder(), "database.yml");
 		if (!dfile.exists()) {
 			dfile.createNewFile();
@@ -110,6 +114,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 	public static void saveData() {
 		try {
 			data.save(dfile);
+			setup(instance);
 		}
 		catch(IOException localIOException) {
 			System.out.println("[RandomTP-Reborn] An error ocurred while trying " + "to save the flat file database");

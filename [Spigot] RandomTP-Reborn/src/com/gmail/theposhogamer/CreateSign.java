@@ -32,6 +32,7 @@ public class CreateSign {
 		RandomTP.data.set("Signs", signs);
 		RandomTP.saveData();
 		
+		
 	}
 	
 	public static boolean isRandomTPSign(int x, int y, int z, String world) {
@@ -233,8 +234,26 @@ public class CreateSign {
 					signs.remove(loc);
 					RandomTP.data.set("Signs", signs);
 					RandomTP.saveData();
+					removeCooldown(x,y,z,world,p);
 					p.sendMessage(RandomTP.instance.getConfig().
 							getString("Messages.RemovedSign").replace("&", "§"));
+				}
+			}
+		}
+	}
+	
+	public static void removeCooldown(int x, int y, int z, String world, Player p) {
+		
+		//Removing sign
+		
+		if(!(RandomTP.data.getStringList("Saved") == null))  {
+			ArrayList<String> signs = (ArrayList<String>) RandomTP.data.getStringList("Signs");
+			for(int i = 0; i<signs.size(); i++) {
+				String sign = signs.get(i);
+				if(sign.contains(x + "," + y + "," + z + "," + world)) {
+					signs.remove(sign);
+					RandomTP.data.set("Signs", signs);
+					RandomTP.saveData();
 				}
 			}
 		}

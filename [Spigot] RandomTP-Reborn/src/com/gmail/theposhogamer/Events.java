@@ -131,16 +131,18 @@ public class Events implements Listener {
 			Sign s = (Sign) e.getClickedBlock().getState();
 			Boolean is = CreateSign.isRandomTPSign(s.getX(), s.getY(), s.getZ(), s.getWorld().getName());
 			if (is) {
+				e.setCancelled(true);
 				HashMap<Player, Integer> cooldown = RandomTP.signCooldown;
 				if(cooldown.containsKey(p)) {
 					CreateSign.setCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName(), cooldown.get(p), p);
 					cooldown.remove(p);
+					return;
 				} else {
+					cooldown.remove(p);
 					if(!RandomTP.players.contains(p)) {
-						if(Cooldown.cooldown.containsKey(p.getUniqueId().toString()+","+s.getX()+s.getY()) 
-								&& CreateSign.hasCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())
+						if(Cooldown.cooldown.containsKey(p.getUniqueId().toString()+","+s.getX()+s.getY())
 								&& Integer.valueOf(Cooldown.cooldown.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[0]) == s.getX()
-								&&Integer.valueOf(Cooldown.cooldown.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[2]) == s.getZ()) {
+								&& Integer.valueOf(Cooldown.cooldown.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[2]) == s.getZ()) {
 							
 							p.sendMessage(cfg.getString("Messages.Cooldown")
 	    								.replace("&", "§").replace("%time%", TimeUtils.calculateTime(Long.valueOf((Cooldown.cooldown
@@ -175,6 +177,8 @@ public class Events implements Listener {
 							}
 						}
 					}
+
+					return;
 				}
 			}
 		}
