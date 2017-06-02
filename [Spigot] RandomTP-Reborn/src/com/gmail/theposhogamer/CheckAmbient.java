@@ -11,7 +11,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
+import org.kingdoms.constants.land.Land;
+import org.kingdoms.constants.land.SimpleChunkLocation;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
@@ -24,6 +25,7 @@ public class CheckAmbient {
 
 	public static boolean factions = false;
 	public static boolean pstones = false;
+	public static boolean kingdoms = false;
 
 	public static void returnLocation(Player p, World w, int maxblocks) {
 
@@ -34,6 +36,7 @@ public class CheckAmbient {
 		RandomTP.tries.put(p, 0);
 
 		new BukkitRunnable() {
+			@SuppressWarnings({ "static-access" })
 			public void run() {
 
 				if(RandomTP.tries.get(p) != null) {
@@ -74,6 +77,18 @@ public class CheckAmbient {
 								|| PreciousStones.API().isPStone(loc)== true) {
 							checker = true;
 							System.out.println("Is a p stone " + loc.toString());
+						}
+						
+					}
+
+					//Checking for factions
+					if (kingdoms == true) {
+						SimpleChunkLocation locs = new SimpleChunkLocation(loc.getChunk());
+						Land land = com.gmail.theposhogamer.Integration.Kingdoms.kingdomsmanager.getLandManager().getOrLoadLand(locs);
+						
+						if(land.getOwner() != null) {
+							checker = true;
+							System.out.println("Owner is " + land.getOwner());
 						}
 						
 					}

@@ -2,9 +2,6 @@ package com.gmail.theposhogamer;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.bukkit.Bukkit;
@@ -46,6 +43,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 
 	public static Economy economy;
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
 		
@@ -85,6 +83,18 @@ public class RandomTP extends JavaPlugin implements Listener {
 		if (bukkitManager.getPlugin("PreciousStones") != null) {
 			CheckAmbient.pstones = true;
 			System.out.println("[RandomTP-Reborn] Linked with PreciousStones!");
+		}
+		if (bukkitManager.getPlugin("Kingdoms") != null) {
+			try{
+				com.gmail.theposhogamer.Integration.Kingdoms.kingdomsmanager = 
+				((org.kingdoms.main.Kingdoms) 
+				Bukkit.getPluginManager().getPlugin("Kingdoms")).getManagers();
+
+				CheckAmbient.kingdoms = true;
+				System.out.println("[RandomTP-Reborn] Linked with Kingdoms!");
+	        } catch (Exception e){
+				System.out.println("[RandomTP-Reborn] Error while linking with Kingdoms!");
+	        }
 		}
 
 		//Registering listeners
@@ -429,4 +439,5 @@ public class RandomTP extends JavaPlugin implements Listener {
 		inMortal.remove(p);
 		players.remove(p);
 	}
+	
 }
