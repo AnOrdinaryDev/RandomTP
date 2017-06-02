@@ -33,26 +33,18 @@ public class RandomTP extends JavaPlugin implements Listener {
 	public static ArrayList < Player > inMortal = new ArrayList < Player > ();
 
 	public static HashMap < Player,
-	Location > pLoc = new HashMap < Player,
-	Location > ();
-	public static HashMap < Player,
-	Integer > pY = new HashMap < Player,
-	Integer > ();
-	public static HashMap < Player,
-	Integer > tries = new HashMap < Player,
-	Integer > ();
-	public static HashMap < Player,
-	Integer > pMoney = new HashMap < Player,
-	Integer > ();
+	Location > pLoc = new HashMap < Player, Location > ();
+	public static HashMap < Player, Integer > pY = new HashMap < Player, Integer > ();
+	public static HashMap < Player, Integer > tries = new HashMap < Player, Integer > ();
+	public static HashMap < Player, Integer > pMoney = new HashMap < Player, Integer > ();
 
-	public static HashMap < Player,
-	Integer > warnings = new HashMap < Player,
-	Integer > ();
+	public static HashMap < Player, Integer > warnings = new HashMap < Player, Integer > ();
 
 	public static Economy economy;
 
 	@Override
 	public void onEnable() {
+		
 		//Register events
 		Bukkit.getPluginManager().registerEvents(this, this);
 
