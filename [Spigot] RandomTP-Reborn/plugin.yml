@@ -1,0 +1,11 @@
+main: com.gmail.theposhogamer.RandomTP
+name: RandomTP-Reborn
+version: 1.4
+softdepend: [Factions, MassiveCore, Vault]
+loadbefore: [Factions, MassiveCore, Vault] 
+author: ThePoshoGamer
+commands:
+   randomtp:
+      description: Basic RandomTP command.
+      usage: /<command>
+      aliases: [rtp, randomteleport, tprandom]

@@ -1,0 +1,49 @@
+SignFormat:
+- '&7[&aRandomTP&7]'
+- '&2Blocks: %distance%'
+- '&cPrice: %price%'
+- '&a(Click here)'
+Messages:
+  Economy: '&7[&e&lRandom&c&lTP&7] &a$%price% were removed from your account.'
+  NoLocation: '&7[&e&lRandom&c&lTP&7] &6$%price% were taken back to your account because no location was found.'
+  NotEnough: '&7[&e&lRandom&c&lTP&7] &cNot enough money to buy the random teleport. You can not afford $%price%'
+  Searching: '&7[&e&lRandom&c&lTP&7] &eSearching a random location...'
+  Found: '&7[&e&lRandom&c&lTP&7] &aLocation found! Teleporting...'
+  NotFound: '&7[&e&lRandom&c&lTP&7] &cNot location found, try again later.'
+  NoPermission: '&7[&e&lRandom&c&lTP&7] &cYou do not have permission'
+  InvalidWorld: '&7[&e&lRandom&c&lTP&7] &cInvalidWorld'
+  OfflinePlayer: '&7[&e&lRandom&c&lTP&7] &c%player% is offline or does not exist'
+  RemovedSign: '&7[&e&lRandom&c&lTP&7] &6Warning, you have removed a RandomTP sign'
+  CreatedSign: '&7[&e&lRandom&c&lTP&7] &aYou have created a RandomTPSign'
+  UnableToCreateSign: '&7[&e&lRandom&c&lTP&7] &cUnable to create sign, please download Vault and an Economy plugin.'
+  CorrectUsage:
+    BasicCommand: '&7[&e&lRandom&c&lTP&7] &cUsage: /randomtp tp <world> <distance>'
+    ConsoleCommand: '&7[&e&lRandom&c&lTP&7] &cUsage: /randomtp consoletp <world> <distance>'
+Inventory:
+  Rows: 1
+  MenuName: '&aSelect RandomTP Distance'
+  Items:
+    '0':
+      id: "322"
+      slot: 0
+      name: '&8[&a+&8] &aRandomTP User &8[&a+&8]'
+      cost: 0
+      distance: 250
+      world: world
+      permission: "randomtp.use.user"
+      lore:
+      - "&b▍ &6Teleport distance: %distance% blocks" 
+      - "&b▍ &6Cost: $%cost%" 
+      - "&b▍ &aClick here to use!"
+    '1':
+      id: "322:1"
+      slot: 1
+      name: '&8[&a+&8] &6RandomTP &e&lVIP &8[&a+&8]'
+      cost: 25
+      distance: 500
+      world: world
+      permission: "randomtp.use.vip"
+      lore:
+      - "&b▍ &6Teleport distance: %distance% blocks" 
+      - "&b▍ &6Cost: $%cost%" 
+      - "&b▍ &aClick here to use!"
