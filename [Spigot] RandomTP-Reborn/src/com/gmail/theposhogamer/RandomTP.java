@@ -254,6 +254,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 									}
 
 								} else {
+									
 									//Else creating more pages
 									double size = signs.size();
 									double hojas = size / 5;
