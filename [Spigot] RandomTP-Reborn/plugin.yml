@@ -1,6 +1,6 @@
 main: com.gmail.theposhogamer.RandomTP
 name: RandomTP-Reborn
-version: 1.4
+version: 1.3
 softdepend: [Factions, MassiveCore, Vault]
 loadbefore: [Factions, MassiveCore, Vault] 
 author: ThePoshoGamer
