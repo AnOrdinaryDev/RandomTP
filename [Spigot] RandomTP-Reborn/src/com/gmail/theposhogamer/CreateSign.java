@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CreateSign {
@@ -104,6 +105,84 @@ public class CreateSign {
 			}
 		}
 		return w;
+	}
+	
+	public static Integer getCooldown(int x, int y, int z, String world) {
+		
+		//Getting the cooldown
+		
+		int w = 0;
+		if(!(RandomTP.data.getStringList("Signs") == null))  {
+			ArrayList<String> signs = (ArrayList<String>) RandomTP.data.getStringList("Signs");
+			for(int i = 0; i<signs.size(); i++) {
+				String sign = signs.get(i);
+				if(sign.startsWith(x + "," + y + "," + z + "," + world)) {
+					String[] arr = sign.split(",");
+					w = Integer.valueOf(arr[8]);
+				}
+			}
+		}
+		return w;
+	}
+	
+	public static boolean hasCooldown(int x, int y, int z, String world) {
+		
+		//Checking if has cooldown
+		
+		if(!(RandomTP.data.getStringList("Signs") == null))  {
+			ArrayList<String> signs = (ArrayList<String>) RandomTP.data.getStringList("Signs");
+			for(int i = 0; i<signs.size(); i++) {
+				String sign = signs.get(i);
+				if(sign.startsWith(x + "," + y + "," + z + "," + world)) {
+					String[] arr = sign.split(",");
+					if(arr.length == 9) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static void setCooldown(int x, int y, int z, String world, Integer seconds, CommandSender sender) {
+		
+		//Setting cooldown
+		
+		if(CreateSign.isRandomTPSign(x, y, z, world)) {
+			
+			ArrayList<String> signs = null;
+			
+			if(RandomTP.data.getStringList("Signs") == null) {
+				signs = new ArrayList<String>();
+			} else {
+				signs = (ArrayList<String>) RandomTP.data.getStringList("Signs");
+			}
+			
+			Location loc = new Location(Bukkit.getWorld(world),x,y,z);
+			
+			String variable = loc.getBlockX() + "," + loc.getBlockY() + "," + 
+			loc.getBlockZ() + "," + loc.getWorld().getName();
+			
+			for(int i = 0; i<signs.size(); i++) {
+				
+				String sign = signs.get(i);
+				if(sign.startsWith(variable)) {
+					
+					String unparsed = sign;
+					unparsed = sign+","+seconds;
+					signs.remove(sign);
+					signs.add(unparsed);
+					sender.sendMessage("§aCooldown of " + seconds + " second/s was added succesfully.");
+				}
+				
+			}
+			
+			RandomTP.data.set("Signs", signs);
+			RandomTP.saveData();
+			
+		}
 	}
 	
 	public static Integer getMaxBlocks(int x, int y, int z, String world) {

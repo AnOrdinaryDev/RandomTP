@@ -131,28 +131,50 @@ public class Events implements Listener {
 			Sign s = (Sign) e.getClickedBlock().getState();
 			Boolean is = CreateSign.isRandomTPSign(s.getX(), s.getY(), s.getZ(), s.getWorld().getName());
 			if (is) {
-				if (Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())) == null) {
-					p.sendMessage(invalidWorld);
-					return;
-				}
-				if (e.getPlayer().hasPermission("randomtp.usesign")) {
-					if (CreateSign.getEcon(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()) == false) {
-						RandomTP.initiateTeleport(p, Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())), CreateSign.getMaxBlocks(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()));
-					} else {
-
-						int price = CreateSign.getPrice(s.getX(), s.getY(), s.getZ(), s.getWorld().getName());
-						RandomTP.pMoney.put(p, price);
-						if (RandomTP.economy.getBalance(p) >= price) {
-							RandomTP.economy.withdrawPlayer(p, price);
-							e.getPlayer().sendMessage(cfg.getString("Messages.Economy").replace("&", "§").replace("%price%", price + ""));
-							RandomTP.initiateTeleport(p, Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())), CreateSign.getMaxBlocks(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()));
-						} else {
-							p.sendMessage(cfg.getString("Messages.NotEnough").replace("&", "§").replace("%price%", price + ""));
-						}
-
-					}
+				HashMap<Player, Integer> cooldown = RandomTP.signCooldown;
+				if(cooldown.containsKey(p)) {
+					CreateSign.setCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName(), cooldown.get(p), p);
+					cooldown.remove(p);
 				} else {
-					p.sendMessage(noPerms);
+					if(!RandomTP.players.contains(p)) {
+						if(Cooldown.cooldown.containsKey(p.getUniqueId().toString()+","+s.getX()+s.getY()) 
+								&& CreateSign.hasCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())
+								&& Integer.valueOf(Cooldown.cooldown.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[0]) == s.getX()
+								&&Integer.valueOf(Cooldown.cooldown.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[2]) == s.getZ()) {
+							
+							p.sendMessage(cfg.getString("Messages.Cooldown")
+	    								.replace("&", "§").replace("%time%", TimeUtils.calculateTime(Long.valueOf((Cooldown.cooldown
+	    										.get(p.getUniqueId().toString()+","+s.getX()+s.getY()).split(",")[4])))));
+							
+						} else {
+							if (Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())) == null) {
+								p.sendMessage(invalidWorld);
+								return;
+							}
+							if (e.getPlayer().hasPermission("randomtp.usesign")) {
+								if (CreateSign.getEcon(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()) == false) {
+									RandomTP.initiateTeleport(p, Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())), CreateSign.getMaxBlocks(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()));
+								} else {
+
+									int price = CreateSign.getPrice(s.getX(), s.getY(), s.getZ(), s.getWorld().getName());
+									RandomTP.pMoney.put(p, price);
+									if (RandomTP.economy.getBalance(p) >= price) {
+										RandomTP.economy.withdrawPlayer(p, price);
+										e.getPlayer().sendMessage(cfg.getString("Messages.Economy").replace("&", "§").replace("%price%", price + ""));
+										RandomTP.initiateTeleport(p, Bukkit.getWorld(CreateSign.getWorld(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())), CreateSign.getMaxBlocks(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()));
+									} else {
+										p.sendMessage(cfg.getString("Messages.NotEnough").replace("&", "§").replace("%price%", price + ""));
+									}
+
+								}
+								if(CreateSign.hasCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName())) {
+									Cooldown.cooldown.put(p.getUniqueId().toString()+","+s.getX()+s.getY(), s.getX()+","+s.getY()+","+s.getZ()+","+s.getWorld().getName()+","+CreateSign.getCooldown(s.getX(), s.getY(), s.getZ(), s.getWorld().getName()));
+								}
+							} else {
+								p.sendMessage(noPerms);
+							}
+						}
+					}
 				}
 			}
 		}

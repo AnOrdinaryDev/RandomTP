@@ -37,6 +37,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 	public static HashMap < Player, Integer > pY = new HashMap < Player, Integer > ();
 	public static HashMap < Player, Integer > tries = new HashMap < Player, Integer > ();
 	public static HashMap < Player, Integer > pMoney = new HashMap < Player, Integer > ();
+	public static HashMap < Player, Integer > signCooldown = new HashMap < Player, Integer > ();
 
 	public static HashMap < Player, Integer > warnings = new HashMap < Player, Integer > ();
 
@@ -87,10 +88,14 @@ public class RandomTP extends JavaPlugin implements Listener {
 		//Loading GUI menu
 		Menu.registerItems();
 
+		//Start cooldown task
+		Cooldown.startTask();
+		
 		System.out.println("[RandomTP-Reborn] The plugin load process has been completed sucessfully. Runnining " + this.getDescription().getVersion().toString() + " version of the plugin.");
 	}@Override
 	public void onDisable() {
 		//Disabling the plugin
+		Cooldown.save();
 		System.out.println("[RandomTP-Reborn] has been disabled, see you later.");
 	}
 
@@ -126,9 +131,38 @@ public class RandomTP extends JavaPlugin implements Listener {
 				sender.sendMessage("§a- §7Commands:");
 				sender.sendMessage("§a- §7/randomtp tp <world> <distance>");
 				sender.sendMessage("§a- §7/randomtp consoletp <world> <distance> <player>");
+				sender.sendMessage("§a- §7/randomtp cooldown <seconds>");
 				sender.sendMessage("§a- §7/randomtp list");
 				sender.sendMessage("§a- §7/randomtp gui");
 				return true;
+			}
+			if (args[0].equalsIgnoreCase("cooldown")) {
+				
+				if(args.length == 2) {
+					if (!(sender instanceof Player) || !sender.hasPermission("randomtp.cooldown")) {
+						return true;
+					}
+					Player p = (Player) sender;
+					
+					if(!signCooldown.containsKey(p)) {
+						try {
+							
+							Integer seconds = Integer.valueOf(args[1]);
+							signCooldown.put(p, seconds);
+							sender.sendMessage(cfg.getString("Messages.ClickSign").replace("&", "§"));
+							
+						}catch(Exception ex) {
+							sender.sendMessage(cfg.getString("Messages.NoNumber").replace("&", "§").replace("%number%", args[1]));
+						}
+					} else {
+						sender.sendMessage(cfg.getString("Messages.AlreadyChoosing").replace("&", "§"));
+					}
+					
+				} else {
+
+					sender.sendMessage(cfg.getString("Messages.CorrectUsage.CooldownCommand").replace("&", "§"));
+				}
+				
 			}
 			if (args[0].equalsIgnoreCase("tp")) {
 
@@ -310,10 +344,12 @@ public class RandomTP extends JavaPlugin implements Listener {
 	}
 
 	public static void initiateTeleport(Player p, World w, int maxblocks) {
-		players.add(p);
+		
 
 		FileConfiguration cfg = instance.getConfig();
 
+		players.add(p);
+		
 		p.sendMessage(cfg.getString("Messages.Searching").replace("&", "§"));
 		
 		CheckAmbient.returnLocation(p, w, maxblocks);
@@ -321,6 +357,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 			public void run() {
 				if (RandomTP.tries.get(p) > 100) {
 					cancel();
+					players.remove(p);
 					RandomTP.tries.remove(p);
 					if (RandomTP.pMoney.get(p) != null) {
 						int price = RandomTP.pMoney.get(p);
@@ -350,17 +387,21 @@ public class RandomTP extends JavaPlugin implements Listener {
 											if (loc.getWorld().getName().equalsIgnoreCase(p.getWorld().getName())) {
 												if (loc.distance(p.getLocation()) > 6) {
 													cancelTaskAndInmortal(this, p);
+													players.remove(p);
 												}
 											} else {
 												cancelTaskAndInmortal(this, p);
+												players.remove(p);
 											}
 										}
 									}.runTaskTimer(instance, 20L, 20L);
 								} else {
 									cancelTaskAndInmortal(this, p);
+									players.remove(p);
 								}
 							} else {
 								cancel();
+								players.remove(p);
 							}
 						}
 					}.runTaskTimer(instance, 10L, 10L);

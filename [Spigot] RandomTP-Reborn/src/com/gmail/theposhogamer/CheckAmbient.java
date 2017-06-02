@@ -110,13 +110,14 @@ public class CheckAmbient {
 	public static Integer randomSymbol(int number) {
 
 		//Converting an integer randomly from positive to negative and viceversa
+		
 		Random random = new Random();
 		int probability = random.nextInt(100);
 		if (probability >= 50) {
-			if (number != 0) {
+			if (!(number <= 0)) {
 				return (number * -1);
 			} else {
-				return number;
+				return number+1;
 			}
 		}
 		return number;
