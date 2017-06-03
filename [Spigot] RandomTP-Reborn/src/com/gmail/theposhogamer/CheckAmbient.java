@@ -76,7 +76,6 @@ public class CheckAmbient {
 						if(PreciousStones.API().isFieldProtectingArea(FieldFlag.ALL, loc)== true
 								|| PreciousStones.API().isPStone(loc)== true) {
 							checker = true;
-							System.out.println("Is a p stone " + loc.toString());
 						}
 						
 					}
@@ -88,7 +87,6 @@ public class CheckAmbient {
 						
 						if(land.getOwner() != null) {
 							checker = true;
-							System.out.println("Owner is " + land.getOwner());
 						}
 						
 					}
