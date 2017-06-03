@@ -108,7 +108,9 @@ public class RandomTP extends JavaPlugin implements Listener {
 		Cooldown.startTask();
 		
 		System.out.println("[RandomTP-Reborn] The plugin load process has been completed sucessfully. Runnining " + this.getDescription().getVersion().toString() + " version of the plugin.");
-	}@Override
+	}
+	
+	@Override
 	public void onDisable() {
 		//Disabling the plugin
 		saveData();

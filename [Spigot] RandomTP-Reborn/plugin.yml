@@ -1,6 +1,6 @@
 main: com.gmail.theposhogamer.RandomTP
 name: RandomTP-Reborn
-version: 1.7
+version: 1.8
 softdepend: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms]
 loadbefore: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms] 
 author: ThePoshoGamer
