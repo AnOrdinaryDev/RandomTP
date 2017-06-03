@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kingdoms.constants.land.Land;
 import org.kingdoms.constants.land.SimpleChunkLocation;
+
+import com.gmail.theposhogamer.Integration.Kingdoms;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
@@ -27,10 +29,11 @@ public class CheckAmbient {
 	public static boolean pstones = false;
 	public static boolean kingdoms = false;
 
+	static Kingdoms kingdomsClass = new Kingdoms();
+	
 	public static void returnLocation(Player p, World w, int maxblocks) {
 
 		Random random = new Random();
-
 		
 		//Setting player tries to 0
 		RandomTP.tries.put(p, 0);
@@ -83,10 +86,11 @@ public class CheckAmbient {
 					//Checking for factions
 					if (kingdoms == true) {
 						SimpleChunkLocation locs = new SimpleChunkLocation(loc.getChunk());
-						Land land = com.gmail.theposhogamer.Integration.Kingdoms.kingdomsmanager.getLandManager().getOrLoadLand(locs);
+						Land land = kingdomsClass.getManager().getLandManager().getOrLoadLand(locs);
 						
 						if(land.getOwner() != null) {
 							checker = true;
+							System.out.println(land.getOwner());
 						}
 						
 					}

@@ -10,7 +10,7 @@ public class Cooldown {
 
 	public static HashMap<String,String> cooldown = new HashMap<String, String>();
 	
-	public static void load() {
+	public void load() {
 		
 		List<String> saved;
 		
@@ -34,7 +34,7 @@ public class Cooldown {
 		
 	}
 	
-	public static void save() {
+	public void save() {
 		
 		List<String> saved;
 		
@@ -70,7 +70,7 @@ public class Cooldown {
 		
 	}
 	
-	public static void startTask() {
+	public  void startTask() {
 		//Load the saved cooldown players
 		load();
 		

@@ -18,6 +18,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.kingdoms.manager.game.GameManagement;
+
+import com.gmail.theposhogamer.Integration.Kingdoms;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -32,8 +35,7 @@ public class RandomTP extends JavaPlugin implements Listener {
 	public static ArrayList < Player > pCheck = new ArrayList < Player > ();
 	public static ArrayList < Player > inMortal = new ArrayList < Player > ();
 
-	public static HashMap < Player,
-	Location > pLoc = new HashMap < Player, Location > ();
+	public static HashMap < Player, Location > pLoc = new HashMap < Player, Location > ();
 	public static HashMap < Player, Integer > pY = new HashMap < Player, Integer > ();
 	public static HashMap < Player, Integer > tries = new HashMap < Player, Integer > ();
 	public static HashMap < Player, Integer > pMoney = new HashMap < Player, Integer > ();
@@ -42,29 +44,27 @@ public class RandomTP extends JavaPlugin implements Listener {
 	public static HashMap < Player, Integer > warnings = new HashMap < Player, Integer > ();
 
 	public static Economy economy;
+	
+	Kingdoms kingdomsClass = new Kingdoms();
+	Cooldown cooldownClass = new Cooldown();
 
 	@SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
-		
 		//Register events
 		Bukkit.getPluginManager().registerEvents(this, this);
-
+		//Register Config file
 		getConfig().options().copyDefaults(true);
 		saveConfig();
-
 		//Register the instance
 		instance = this;
-
 		//Setup the database.yml file, where RandomTP signs are gonna be saved
 		try {
 			setup(this);
 		} catch(Exception Ignored) {
 			System.out.println("[RandomTP-Reborn] An error ocurred while trying " + "to create the flat file database");
 		}
-
 		PluginManager bukkitManager = Bukkit.getServer().getPluginManager();
-
 		//Check if for Vault
 		if (bukkitManager.getPlugin("Vault") != null) {
 			RegisteredServiceProvider < Economy > service = Bukkit.getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -74,7 +74,6 @@ public class RandomTP extends JavaPlugin implements Listener {
 			}
 
 		}
-		
 		//Check for Factions & MassiveCore
 		if (bukkitManager.getPlugin("Factions") != null && bukkitManager.getPlugin("MassiveCore") != null) {
 			CheckAmbient.factions = true;
@@ -86,10 +85,12 @@ public class RandomTP extends JavaPlugin implements Listener {
 		}
 		if (bukkitManager.getPlugin("Kingdoms") != null) {
 			try{
-				com.gmail.theposhogamer.Integration.Kingdoms.kingdomsmanager = 
+				GameManagement manager = 
 				((org.kingdoms.main.Kingdoms) 
 				Bukkit.getPluginManager().getPlugin("Kingdoms")).getManagers();
 
+				kingdomsClass.setManager(manager);
+				
 				CheckAmbient.kingdoms = true;
 				System.out.println("[RandomTP-Reborn] Linked with Kingdoms!");
 	        } catch (Exception e){
@@ -105,16 +106,19 @@ public class RandomTP extends JavaPlugin implements Listener {
 		Menu.registerItems();
 
 		//Start cooldown task
-		Cooldown.startTask();
+		cooldownClass.startTask();
 		
 		System.out.println("[RandomTP-Reborn] The plugin load process has been completed sucessfully. Runnining " + this.getDescription().getVersion().toString() + " version of the plugin.");
+		
+		//Checking for new updates
+		new Updater().checkUpdate(this);
 	}
 	
 	@Override
 	public void onDisable() {
 		//Disabling the plugin
 		saveData();
-		Cooldown.save();
+		cooldownClass.save();
 		System.out.println("[RandomTP-Reborn] has been disabled, see you later.");
 	}
 

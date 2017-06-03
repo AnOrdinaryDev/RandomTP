@@ -4,6 +4,14 @@ import org.kingdoms.manager.game.GameManagement;
 
 public class Kingdoms {
 	
-	public static GameManagement kingdomsmanager;
+	private static GameManagement kingdomsmanager;
+	
+	public GameManagement getManager() {
+		return kingdomsmanager;
+	}
+	
+	public void setManager(GameManagement manager) {
+		kingdomsmanager = manager;
+	}
 	
 }

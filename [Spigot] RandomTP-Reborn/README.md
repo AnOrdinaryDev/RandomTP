@@ -3,7 +3,7 @@
 > RandomTP (also known as Random Teleport is a minecraft plugin, the object of which is to teleport people to Random Locations of the world.  
 \- Plugin Link: http://spigotmc.org/resources/5084/
 
-<br />I made a RandomRP plugin for Minecraft that does exactly this. Players can use GUI menus with cooldowns, random teleport sign and use them to teleport themselves to a random location in a world.
+<br />I made a RandomTP plugin for Minecraft that does exactly this. Players can use GUI menus with cooldowns, random teleport sign and use them to teleport themselves to a random location in a world.
 <br /><br />
 ## Features
 \- Fully configurable 
@@ -35,7 +35,7 @@ Same rule applies, want support for a plugin?
 Don't hesitate to ask :)<br /><br />  
 
 ### Dependencies:
-Although my plugin is completely modular in a way that dependencies aren't intertwined with the rest of the code. Most of the time, removing a dependency is as simple as removing its class and 1 line somewhere else in the code. But with some dependencies this is not the case. Those are listed here:
+Although my plugin is completely modular in a way that dependencies aren't intertwined with the rest of the code. Most of the time, removing a dependency is as simple as removing its class and 1 line somewhere else in the code. But with some dependencies this is not the case. Those are listed here: (No hard dependencies)
 
 #### Java 1.8+
 To use the Java Lambda feature, Java 1.8 or higher is required.
@@ -44,7 +44,7 @@ To use the Java Lambda feature, Java 1.8 or higher is required.
 The plugin actually is compatible with all the spigot versions, if it doesn't work for any of them report it and I'll be really happy to fix it.
 
 ### Current (soft and hard) dependencies used in the project
-Here is a list of all the current dependencies used in KoTH:  
+Here is a list of all the current dependencies used in RandomTP:  
 \- Factions  
 \- FactionsUUID 
 \- PreciousStones  
