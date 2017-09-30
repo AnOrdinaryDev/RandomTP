@@ -2,7 +2,6 @@ main: com.gmail.theposhogamer.RandomTP
 name: RandomTP-Reborn
 version: 1.9
 softdepend: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms]
-loadbefore: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms] 
 author: ThePoshoGamer
 commands:
    randomtp:
