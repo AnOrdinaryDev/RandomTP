@@ -21,8 +21,7 @@ http://spigotmc.org/resources/5084/
 #### Group plugins:
 \- Factions  
 \- FactionsUUID  
-\- PreciousStones 
-\- Kingdoms  
+\- PreciousStones
   
 Is the group plugin you use on your server not supported?   
 Don't hesitate to ask me to add support for it :)
@@ -47,9 +46,7 @@ The plugin actually is compatible with all the spigot versions, if it doesn't wo
 Here is a list of all the current dependencies used in RandomTP:  
 \- Factions  
 \- FactionsUUID 
-\- PreciousStones  
-\- GLib (As a dependency of Kingdoms)  
-\- Kingdoms 
+\- PreciousStones
 \- Vault
 
 ### Current state of the code
@@ -79,8 +76,8 @@ if (plugin == null) {
 @EventHandler
 public void onJoinEvent(PlayerJoinEvent e) {
   Player p = e.getPlayer();
-  //RandomTPAPI.teleportRandom(player,world, blocksDistance)
-  RandomTPAPI.teleportRandom(p, p.getWorld(), 100);
+  //RandomTPAPI.teleportToRandom(player,blocksDistance,world)
+  RandomTPAPI.getRandomLocation(blocks,world);
 }
 ```
 

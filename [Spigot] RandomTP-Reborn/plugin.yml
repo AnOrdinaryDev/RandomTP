@@ -1,11 +1,9 @@
+name: RandomTP
 main: com.gmail.theposhogamer.RandomTP
-name: RandomTP-Reborn
-version: 1.9
-softdepend: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms]
-loadbefore: [Factions, MassiveCore, Vault, PreciousStones, Kingdoms] 
-author: ThePoshoGamer
+version: 1.0
+author: AnyOD
 commands:
-   randomtp:
-      description: Basic RandomTP command.
+   rtp:
+      description: Shows info of the plugin RandomTP.
       usage: /<command>
-      aliases: [rtp, randomteleport, tprandom]
+      aliases: [randomtp, randomteleport, rt]

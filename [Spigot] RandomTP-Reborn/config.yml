@@ -1,29 +1,15 @@
+AntiGlitcher:
+  enabled: true
+  taskeveryseconds: 30
+  antiglitchdurationseconds: 60
+SignBackup:
+  enabled: true
+  taskeveryseconds: 300
 SignFormat:
 - '&7[&aRandomTP&7]'
 - '&2Blocks: %distance%'
 - '&cPrice: %price%'
 - '&a(Click here)'
-Messages:
-  Economy: '&7[&e&lRandom&c&lTP&7] &a$%price% were removed from your account.'
-  NoLocation: '&7[&e&lRandom&c&lTP&7] &6$%price% were taken back to your account because no location was found.'
-  NotEnough: '&7[&e&lRandom&c&lTP&7] &cNot enough money to buy the random teleport. You can not afford $%price%'
-  Searching: '&7[&e&lRandom&c&lTP&7] &eSearching a random location...'
-  Found: '&7[&e&lRandom&c&lTP&7] &aLocation found! Teleporting...'
-  NotFound: '&7[&e&lRandom&c&lTP&7] &cNot location found, try again later.'
-  NoPermission: '&7[&e&lRandom&c&lTP&7] &cYou do not have permission'
-  InvalidWorld: '&7[&e&lRandom&c&lTP&7] &cInvalidWorld'
-  OfflinePlayer: '&7[&e&lRandom&c&lTP&7] &c%player% is offline or does not exist'
-  RemovedSign: '&7[&e&lRandom&c&lTP&7] &6Warning, you have removed a RandomTP sign'
-  CreatedSign: '&7[&e&lRandom&c&lTP&7] &aYou have created a RandomTPSign'
-  Cooldown: '&7[&e&lRandom&c&lTP&7] &6Please wait %time% before using that again'
-  ClickSign: '&7[&e&lRandom&c&lTP&7] &aNow please click a randomtp sign'
-  NoNumber: '&7[&e&lRandom&c&lTP&7] &c%number% is not a number'
-  AlreadyChoosing: '&7[&e&lRandom&c&lTP&7] &cPlease click a sign before setting another cooldown'
-  UnableToCreateSign: '&7[&e&lRandom&c&lTP&7] &cUnable to create sign, please download Vault and an Economy plugin.'
-  CorrectUsage:
-    BasicCommand: '&7[&e&lRandom&c&lTP&7] &cUsage: /randomtp tp <world> <distance>'
-    ConsoleCommand: '&7[&e&lRandom&c&lTP&7] &cUsage: /randomtp consoletp <world> <distance>'
-    CooldownCommand: '&7[&e&lRandom&c&lTP&7] &cUsage: /randomtp cooldown <seconds>'
 Inventory:
   Rows: 1
   MenuName: '&aSelect RandomTP Distance'
@@ -38,9 +24,9 @@ Inventory:
       cooldown: 60
       permission: "randomtp.use.user"
       lore:
-      - "&b▍ &6Teleport distance: %distance% blocks" 
-      - "&b▍ &6Cost: $%cost%" 
-      - "&b▍ &aClick here to use!"
+      - "&6Teleport distance: %distance% blocks" 
+      - "&6Cost: $%cost%" 
+      - "&aClick here to use!"
     '1':
       id: "322:1"
       slot: 1
@@ -51,6 +37,6 @@ Inventory:
       cooldown: 300
       permission: "randomtp.use.vip"
       lore:
-      - "&b▍ &6Teleport distance: %distance% blocks" 
-      - "&b▍ &6Cost: $%cost%" 
-      - "&b▍ &aClick here to use!"
+      - "&6Teleport distance: %distance% blocks" 
+      - "&6Cost: $%cost%" 
+      - "&aClick here to use!"
