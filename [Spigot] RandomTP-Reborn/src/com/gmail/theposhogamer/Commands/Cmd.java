@@ -64,7 +64,7 @@ public class Cmd implements CommandExecutor {
 					return true;
 				} else if(args[0].equalsIgnoreCase("tp")) {
 					if(sender.hasPermission("randomtp.tp")) {
-						if(args.length == 3) {
+						if(args.length == 4) {
 							String player = args[1];
 							String world = args[2];
 							String distance = args[3];

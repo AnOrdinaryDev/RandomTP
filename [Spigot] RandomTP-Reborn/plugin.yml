@@ -1,6 +1,6 @@
 name: RandomTP
 main: com.gmail.theposhogamer.RandomTP
-version: 1.0
+version: 1.0.2
 author: AnyOD
 commands:
    rtp:

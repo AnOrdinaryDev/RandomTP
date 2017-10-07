@@ -27,7 +27,6 @@ public class Menu implements Listener {
 
 	@SuppressWarnings("deprecation")
 	public void registerItems() {
-
 		FileConfiguration cfg = this.plugin.getConfig();
 		for (String s: cfg.getConfigurationSection("Inventory.Items").getKeys(false)) {
 			String configsec = "Inventory.Items." + s + ".";
@@ -37,7 +36,7 @@ public class Menu implements Listener {
 			int distance = cfg.getInt(configsec + "distance");
 			int cost = cfg.getInt(configsec + "cost");
 			ItemStack slot0 = null;
-			if (String.valueOf(id).contains(":")) {
+			if (id.contains(":")) {
 				String a = id;
 				String[] arr = a.split(":");
 				int finalid = Integer.valueOf(arr[0]);
@@ -45,7 +44,7 @@ public class Menu implements Listener {
 				slot0 = new ItemStack(Material.getMaterial(finalid), 1, (short) data);
 				ItemMeta meta0 = slot0.getItemMeta();
 				meta0.setDisplayName(name);
-				ArrayList < String > arrayconvertion = new ArrayList < String > ();
+				ArrayList < String > arrayconvertion = new ArrayList <String> ();
 				for (int i = 0; i < array.size(); i++) {
 					arrayconvertion.add(array.get(i).replace("&", "§").replace("%distance%", distance + "").replace("%cost%", cost + ""));
 				}
@@ -115,25 +114,24 @@ public class Menu implements Listener {
 					e.setCancelled(true);
 					return;
 				}
-				if(!clicked.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
-					e.setCancelled(true);
-					return;
-				}
-				String separator = ":";
-				if(id.contains(separator)) {
-					String a = id;
-					String[] arr = a.split(separator);
-					int finalid = Integer.valueOf(arr[0]);
-					int data = Integer.valueOf(arr[1]);
-					if (clicked.getType().getId() == finalid && data == clicked.getData().getData()) {
-						startGUITeleport(p, permission, cooldown, cost, world, distance, noPerms,
-								clicked.getItemMeta().getDisplayName());
+				if(clicked.getItemMeta().getDisplayName().equalsIgnoreCase(name)) {
+					String separator = ":";
+					if(id.contains(separator)) {
+						String a = id;
+						String[] arr = a.split(separator);
+						int finalid = Integer.valueOf(arr[0]);
+						int data = Integer.valueOf(arr[1]);
+						if (clicked.getType().getId() == finalid && data == clicked.getData().getData()) {
+							startGUITeleport(p, permission, cooldown, cost, world, distance, noPerms,
+									clicked.getItemMeta().getDisplayName());
+						}
+					} else {
+						if (clicked.getType().getId() == Integer.valueOf(id)) {
+							startGUITeleport(p, permission, cooldown, cost, world, distance, noPerms,
+									clicked.getItemMeta().getDisplayName());
+						}
 					}
-				} else {
-					if (clicked.getType().getId() == Integer.valueOf(id)) {
-						startGUITeleport(p, permission, cooldown, cost, world, distance, noPerms,
-								clicked.getItemMeta().getDisplayName());
-					}
+					break;
 				}
 			}
 			e.setCancelled(true);
